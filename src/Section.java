@@ -10,7 +10,7 @@ ________________________________________________________________________________
  *This file is under the Creative Commons Attribution 4.0 International (More info here https://creativecommons.org/licenses/by/4.0/)
  */
 
-public class Casilla {
+public class Section {
 	/**
 	 * @author Elias Periañez
 	 * This is the parametre that show wich unit is on it

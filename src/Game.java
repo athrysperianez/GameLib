@@ -16,14 +16,20 @@ public class Game {
 	
 	/**
 	 * @author Elias Periañez
-	 * The table is the field where your game happend
+	 * The table is the field where your game happens
 	 */
-	private Casilla [][] table;
+	private Section [][] table;
 	
 	/**
 	 * @author Elias Periañez
 	 * Used Pair to represent the 2 possible players and their respective turns
 	 */
 	private Pair<Turn, Turn> turn;
+
+	/**
+	 * @author Elias Periañez
+	 * The menu is the game menu, it will be use for starting the game and for anything that requieres printing on the screen/interact with the user, acting similar as the view on a MVC logic.
+	 */
+	public Menu menu;
 	
 }
