@@ -12,9 +12,9 @@ import java.util.Scanner;
 abstract public class Menu {
 
 	/**
-	 * TODO: Complete Javadoc
-	 * @param actions
-	 * @return
+	 * Use this method to call the action choice menu, which let the player choose the action they want to perform in this turn
+	 * @param actions an array of actions to be shown in the menu
+	 * @return The chosen action by the user
 	 */
 	public Action choiceMenu(Action[] actions) {
 		int i = 0;
