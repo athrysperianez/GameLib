@@ -12,9 +12,32 @@ ________________________________________________________________________________
 
 public class Section {
 	/**
-	 * @author Elias Periañez
-	 * This is the parametre that show wich unit is on it
+	 * @author Elias Periañez This is the parameter that show which unit is on it,
+	 *         if it´s null means that the section is empty
 	 */
 	private Unit unitOnIt = null;
+
+	public Unit getUnitOnIt() {
+		return unitOnIt;
+	}
+	
+	//TODO Javadoc
+	public boolean setUnitOnIt(Unit newUnit) {
+		boolean result = (unitOnIt == null) ? true : false;
+		if (result) {
+			this.unitOnIt = newUnit;
+		}
+		return result;
+	}
+
+	/**
+	 * TODO Javadoc
+	 * The return is the previous unit, in case you want to move it or do something instead of just destroying it
+	 */
+	public Unit overrideUnitOnIt(Unit newUnit) {
+		Unit storedUnit = this.unitOnIt;
+		this.unitOnIt = newUnit;
+		return storedUnit;
+	}
 	
 }

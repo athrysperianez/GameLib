@@ -16,15 +16,22 @@ public class Game {
 	
 	/**
 	 * @author Elias Periañez
+	 * This variable defines if you are playing a singleplayer or a multiplayer game
+	 */
+	private GameType gameType;
+	
+	/**
+	 * @author Elias Periañez
 	 * The table is the field where your game happens
 	 */
 	private Section [][] table;
 	
 	/**
 	 * @author Elias Periañez
-	 * Used Pair to represent the 2 possible players and their respective turns
+	 * Used Pair to represent the 2 possible players and their respective turns, when in a singleplayer game second turn will always be null, if gameType is changed to multiplayer 
+	 * after the game has been instantiated the second turn will be an empty Turn
 	 */
-	private Pair<Turn, Turn> turn;
+	private Pair<Turn, Turn> turns;
 
 	/**
 	 * @author Elias Periañez
@@ -32,4 +39,37 @@ public class Game {
 	 */
 	public Menu menu;
 	
+	
+	public Game() {}
+	
+	public Game(Section[][] table, Pair<Turn, Turn> turns, Menu menu) {
+		this.table = table;
+		this.turns = turns;
+		this.gameType = GameType.MULTIPLAYER;
+		this.menu = menu;
+	}
+	
+	public Game(Section[][] table, Turn turn, Menu menu) {
+		this.table = table;
+		this.turns = new Pair<Turn, Turn>(turn, null);
+		this.gameType = GameType.MULTIPLAYER;
+		this.menu = menu;
+	}
+	
+	
+	public boolean initialize() {
+		Boolean result = true;
+		try {
+		/**
+		 * TODO implements initialization code
+		 */
+		}catch (Exception e) {
+			result = false;
+		}
+		return result;
+	}
+}
+
+enum GameType{
+	SINGLEPLAYER, MULTIPLAYER
 }

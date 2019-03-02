@@ -23,7 +23,7 @@ public interface Action {
 	
 	/**
 	 * @author Elias Periañez
-	 * This function will be called by the menu for knowing the name and info about the action, if you dont want to give any info, u can put the second string to null
+	 * This function will be called by the menu for knowing the name and info about the action, if you don´t want to give any info, u can put the second string to null
 	 * @return A Pair object containing two strings, the first one with the name of the action (This one is obligatory) and the second one containing any info about the action (This one can be null)
 	 */
 	public Pair<String, String> getActionInfo();

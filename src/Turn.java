@@ -1,3 +1,5 @@
+import Exceptions.NotImplementedException;
+
 /*
  *Creado por Elias Periañez
  *31 ene. 2019
@@ -13,31 +15,55 @@ ________________________________________________________________________________
 abstract public class Turn {
 
 	/**
-	 * @author Elias Periañez
-	 * All the actions that can be done in this turn
+	 * @author Elias Periañez All the actions that can be done in this turn
 	 */
-	private Action [] possibleActions;
-	
+	private Action[] possibleActions;
+
 	/**
 	 * @author Elias Periañez
-	 * @param <strong> possibleActions: </strong> All the actions that can be done in this turn
+	 * @param <strong>
+	 *            possibleActions: </strong> All the actions that can be done in
+	 *            this turn
 	 */
-	Turn(Action [] possibleActions){
+	Turn(Action[] possibleActions) {
 		this.possibleActions = possibleActions;
 	}
-	
-	public void start(Game game) {
-		game.menu.choiceMenu(this.filterCurrentActions(game));
+
+	Turn(Unit[] units, Action[] extraActions) {
+
 	}
-	
+
+	//TODO Javadoc
+	public void onCall(Menu menu) {
+		try {
+			throw new NotImplementedException();
+		} catch (NotImplementedException e) {
+			e.printStackTrace();
+			System.err.println("At lane: " + e.getStackTrace()[0].getLineNumber());
+		}
+	}
+
 	/**
-	 * 
-	 * @param <strong> game: </strong> The game object, use it to find out the current state of the game and filter
-	 * @return An array list of possible actions in the current state of the game, by default every action is considered as possible so it will return possibleActions param.
-	 * Use this method to check possible actions for the current turn
+	 * @param <strong>
+	 *            game: </strong> The game object, use it to find out the current
+	 *            state of the game and filter
+	 * @return An array list of possible actions in the current state of the game,
+	 *         by default every action is considered as possible so it will return
+	 *         possibleActions param. Use this method to check possible actions for
+	 *         the current turn
 	 */
 	private Action[] filterCurrentActions(Game game) {
 		return this.possibleActions;
 	}
-	
+
+	//TODO Javadoc
+	public void onActionChoosed(Action action) {
+		try {
+			throw new NotImplementedException();
+		} catch (NotImplementedException e) {
+			e.printStackTrace();
+			System.err.println("At lane: " + e.getStackTrace()[0].getLineNumber());
+		}
+	}
+
 }
