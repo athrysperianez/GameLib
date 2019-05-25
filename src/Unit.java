@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 /*
  *Creado por Elias Periañez
  *31 ene. 2019
@@ -10,18 +12,24 @@ ________________________________________________________________________________
  *This file is under the Creative Commons Attribution 4.0 International (More info here https://creativecommons.org/licenses/by/4.0/)
  */
 
-public interface Unit {
+public interface Unit extends Serializable{
+	
+	/**
+	 * @author Elias Periañez
+	 * In this function you must return the actions that correspond to the unit and can be done for each unit in the game
+	 */
+	public Action[] getActionsPerUnit();
 
 	/**
 	 * @author Elias Periañez
-	 * In this array you can put the actions that correspond to the unit and can be done for each unit in the game
+	 * In this function you must return the actions that correspond to the unit and can be done once you have an unit of that type in the field and are not bound to the unit itself.
 	 */
-	static final Action [] actionsPerUnit = null;
-
-	/**
-	 * @author Elias Periañez
-	 * In this array you can put the actions that correspond to the unit and can be done once you have an unit of that type in the field and are not bound to the unit itself.
+	public Action[] getActionsPerUnitType();
+	
+	/*
+	 * You must implement this function in order for the save game function to work, check documentation to see how.
 	 */
-	static final Action [] actionPerUnitType = null;
+	@Override
+	public String toString();
 
 }

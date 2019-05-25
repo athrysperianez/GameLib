@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 import javafx.util.Pair;
 
 /*
@@ -12,7 +14,7 @@ ________________________________________________________________________________
  *This file is under the Creative Commons Attribution 4.0 International (More info here https://creativecommons.org/licenses/by/4.0/)
  */
 
-public interface Action {
+public interface Action extends Serializable{
 	
 	/**
 	 * @author Elias Periañez
@@ -27,4 +29,11 @@ public interface Action {
 	 * @return A Pair object containing two strings, the first one with the name of the action (This one is obligatory) and the second one containing any info about the action (This one can be null)
 	 */
 	public Pair<String, String> getActionInfo();
+	
+	/*
+	 * You must implement this function in order for the save game function to work, check documentation to see how.
+	 */
+	@Override
+	public String toString();
+	
 }

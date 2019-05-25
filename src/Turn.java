@@ -1,3 +1,7 @@
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import Exceptions.NotImplementedException;
 
 /*
@@ -12,8 +16,10 @@ ________________________________________________________________________________
  *This file is under the Creative Commons Attribution 4.0 International (More info here https://creativecommons.org/licenses/by/4.0/)
  */
 
-abstract public class Turn {
+abstract public class Turn implements Serializable{
 
+
+	private static final long serialVersionUID = -7901032368453232885L;
 	/**
 	 * @author Elias Periañez All the actions that can be done in this turn
 	 */
@@ -29,11 +35,20 @@ abstract public class Turn {
 		this.possibleActions = possibleActions;
 	}
 
+	//TODO Javadoc
 	Turn(Unit[] units, Action[] extraActions) {
-
+		ArrayList<Action> tmpActions = new ArrayList<Action>();
+		ArrayList<Class> classFilterTmp = new ArrayList<Class>();
+		for (Unit unit : units) {
+			tmpActions.addAll(Arrays.asList(unit.getActionsPerUnit()));
+			if (!classFilterTmp.contains(unit.getClass())) {
+				classFilterTmp.add(unit.getClass());
+				tmpActions.addAll(Arrays.asList(unit.getActionsPerUnitType()));
+			}
+		}
 	}
 
-	//TODO Javadoc
+	// TODO Javadoc
 	public void onCall(Menu menu) {
 		try {
 			throw new NotImplementedException();
@@ -56,7 +71,7 @@ abstract public class Turn {
 		return this.possibleActions;
 	}
 
-	//TODO Javadoc
+	// TODO Javadoc
 	public void onActionChoosed(Action action) {
 		try {
 			throw new NotImplementedException();

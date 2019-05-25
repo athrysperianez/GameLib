@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -14,11 +15,13 @@ ________________________________________________________________________________
  *This file is under the Creative Commons Attribution 4.0 International (More info here https://creativecommons.org/licenses/by/4.0/)
  */
 
-public class Menu {
+public class Menu implements Serializable {
+
+	private static final long serialVersionUID = -7924402451463615207L;
 
 	private MenuLayer[] layers;
 	private Turn caller;
-	
+
 	public Menu(MenuLayer[] layers, Turn caller) {
 		this.setLayers(layers);
 		this.setCaller(caller);
@@ -37,12 +40,12 @@ public class Menu {
 
 	public static MenuLayer layerFactory(MenuLayerType mlt, Action[] actions, HashMap<String, String> data) {
 		MenuLayer result;
-		
-		if(actions == null) {
+
+		if (actions == null) {
 			result = new Menu().new MenuLayer().CreateMenuLayer(data);
-		}else if(data == null){
+		} else if (data == null) {
 			result = new Menu().new MenuLayer().CreateMenuLayer(actions);
-		}else {
+		} else {
 			result = new Menu().new MenuLayer().CreateMenuLayer(mlt, actions, data);
 		}
 		return result;
@@ -64,18 +67,18 @@ public class Menu {
 	 *            an array of actions to be shown in the menu
 	 * @return The chosen action by the user
 	 */
-	  //
+	//
 
 	class MenuLayer {
 
 		MenuLayer CreateMenuLayer(Action[] actions) {
 			return CreateMenuLayer(MenuLayerType.CHOICE, actions, null);
 		}
-		
+
 		MenuLayer CreateMenuLayer(HashMap<String, String> data) {
 			return CreateMenuLayer(MenuLayerType.PROMPT, null, data);
 		}
-		
+
 		MenuLayer CreateMenuLayer(MenuLayerType mlt, Action[] actions, HashMap<String, String> data) {
 
 			MenuLayer result = null;
@@ -89,10 +92,13 @@ public class Menu {
 			return result;
 		}
 
-		//TODO Javadoc
-		class ChoiceLayer extends MenuLayer {
+		// TODO Javadoc
+		class ChoiceLayer extends MenuLayer implements Serializable {
+
+			private static final long serialVersionUID = -511268994651726131L;
+
 			private Action[] actions;
-			
+
 			public ChoiceLayer(Action[] actions) {
 				this.actions = actions;
 			}
@@ -132,34 +138,54 @@ public class Menu {
 				this.actions = actions;
 			}
 
+			@Override
+			public String toString() {
+				return new StringBuffer(" Actions : ").append(this.actions).toString();
+			}
+
 		}
 
-		//TODO Javadoc
-		class PromptLayer extends MenuLayer {
+		// TODO Javadoc
+		class PromptLayer extends MenuLayer implements Serializable {
+
+			private static final long serialVersionUID = -7756136883211134387L;
+
 			private HashMap<String, String> strings;
+
 			public PromptLayer(HashMap<String, String> data) {
 				this.strings = data;
 			}
+
 			public void printByKey(String key) {
 				this.strings.get(key);
 			}
+
 			public String getByKey(String key) {
 				return this.strings.get(key);
 			}
-			
+
 			public HashMap<String, String> getStrings() {
 				return strings;
 			}
-			
+
 			public void setStrings(HashMap<String, String> strings) {
 				this.strings = strings;
 			}
 
+			@Override
+			public String toString() {
+				return new StringBuffer(" Strings : ").append(this.strings).toString();
+			}
 		}
 
 	}
 
 	enum MenuLayerType {
 		CHOICE, PROMPT
+	}
+
+	@Override
+	public String toString() {
+		return new StringBuffer(" Layers : ").append(this.layers).append(" Caller : ").append(this.layers).toString();
 	}
 }

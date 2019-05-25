@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 /*
  *Creado por Elias Periañez
  *31 ene. 2019
@@ -10,7 +12,11 @@ ________________________________________________________________________________
  *This file is under the Creative Commons Attribution 4.0 International (More info here https://creativecommons.org/licenses/by/4.0/)
  */
 
-public class Section {
+public class Section implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2635539824403895251L;
 	/**
 	 * @author Elias Periañez This is the parameter that show which unit is on it,
 	 *         if it´s null means that the section is empty
@@ -38,6 +44,11 @@ public class Section {
 		Unit storedUnit = this.unitOnIt;
 		this.unitOnIt = newUnit;
 		return storedUnit;
+	}
+	
+	@Override
+	public String toString() {
+		return new StringBuffer(" Unit on it : ").append(this.unitOnIt).toString();
 	}
 	
 }
