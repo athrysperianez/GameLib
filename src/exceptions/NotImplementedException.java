@@ -1,7 +1,7 @@
 /**
  * 
  */
-package Exceptions;
+package exceptions;
 
 /**
  * @author Elias Periañez 
