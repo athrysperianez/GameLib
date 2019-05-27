@@ -1,4 +1,4 @@
-package main;
+package gameLib.main;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -7,8 +7,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Writer;
-import exceptions.UnableToLoadException;
-import exceptions.UnableToSaveException;
+
+import gameLib.exceptions.UnableToLoadException;
+import gameLib.exceptions.UnableToSaveException;
 
 /*
  *Creado por Elias Periañez

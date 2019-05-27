@@ -1,4 +1,4 @@
-package main;
+package gameLib.main;
 import java.io.Serializable;
 
 import javafx.util.Pair;
@@ -32,7 +32,7 @@ public interface Action extends Serializable{
 	public Pair<String, String> getActionInfo();
 	
 	/*
-	 * You must implement this function in order for the save game function to work, check documentation to see how.
+	 * You must implement this function in order for the save game function to work, check documentation to see the correct format.
 	 */
 	@Override
 	public String toString();

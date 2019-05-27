@@ -1,8 +1,8 @@
-package main;
+package gameLib.main;
+
 import java.io.Serializable;
 
 import javafx.util.Pair;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /*
  *Creado por Elias Periañez
@@ -21,34 +21,33 @@ public class Game implements Serializable {
 	private static final long serialVersionUID = -6117728161169835564L;
 
 	private String gameTitle;
-	
+
 	/**
-	 * @author Elias Periañez This variable defines if you are playing a
-	 *         singleplayer or a multiplayer game
+	 * This variable defines if you are playing a singleplayer or a multiplayer game
 	 */
 	private GameType gameType;
 
 	/**
-	 * @author Elias Periañez The table is the field where your game happens
+	 * The table is the field where your game happens
 	 */
 	private Section[][] table;
 
 	/**
-	 * @author Elias Periañez Used Pair to represent the 2 possible players and
-	 *         their respective turns, when in a singleplayer game second turn will
-	 *         always be null, if gameType is changed to multiplayer after the game
-	 *         has been instantiated the second turn will be an empty Turn
+	 * Used Pair to represent the 2 possible players and their respective turns,
+	 * when in a singleplayer game second turn will always be null, if gameType is
+	 * changed to multiplayer after the game has been instantiated the second turn
+	 * will be an empty Turn
 	 */
 	private Pair<Turn, Turn> turns;
 
 	/**
-	 * @author Elias Periañez The menu is the game menu, it will be use for starting
-	 *         the game and for anything that requieres printing on the
-	 *         screen/interact with the user, acting similar as the view on a MVC
-	 *         logic.
+	 * The menu is the game menu, it will be use for starting the game and for
+	 * anything that requires printing on the screen/interact with the user, acting
+	 * similar as the view on a MVC logic.
 	 */
-	public Menu menu;
+	private Menu menu;
 
+	// TODO Game javadoc
 	public Game() {
 	}
 
@@ -68,17 +67,17 @@ public class Game implements Serializable {
 		this.menu = menu;
 	}
 
-	public boolean startGame() {
+	public boolean startGame(GameEndChecker check) {
 		boolean result = true;
 		try {
-			boolean tick = true;
-			while (!checkGameEnded()) {
-				if (tick) {
+			boolean tic = true;
+			while (!check.checkGameEnded(this)) {
+				if (tic) {
 					this.turns.getKey().onCall(this.menu);
 				} else {
 					this.turns.getValue().onCall(this.menu);
 				}
-				tick = !tick;
+				tic = !tic;
 			}
 		} catch (Exception e) {
 			result = false;
@@ -86,8 +85,17 @@ public class Game implements Serializable {
 		return result;
 	}
 
-	public boolean checkGameEnded() {
-		throw new NotImplementedException();
+
+	public String formatTable() {
+		String result = "";
+		for (Section section : this.table[0]) {
+			result += "[" + section.getUnitOnIt().getSummary() + "]";
+		}
+
+		for (Section section : this.table[1]) {
+			result += "[" + section.getUnitOnIt().getSummary() + "]";
+		}
+		return result;
 	}
 
 	@Override
@@ -97,6 +105,31 @@ public class Game implements Serializable {
 				.append(" Menu : ").append(this.menu.toString()).toString();
 	}
 
+	//Getters and setters
+	public Section[][] getTable() {
+		return table;
+	}
+
+	public void setTable(Section[][] table) {
+		this.table = table;
+	}
+
+	public Pair<Turn, Turn> getTurns() {
+		return turns;
+	}
+
+	public void setTurns(Pair<Turn, Turn> turns) {
+		this.turns = turns;
+	}
+
+	public Menu getMenu() {
+		return menu;
+	}
+
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
+
 	public String getGameTitle() {
 		return gameTitle;
 	}
@@ -104,6 +137,15 @@ public class Game implements Serializable {
 	public void setGameTitle(String gameTitle) {
 		this.gameTitle = gameTitle;
 	}
+	
+	public void setGameType(GameType gt) {
+		this.gameType = gt;
+	}
+	
+	public GameType getGameType() {
+		return this.gameType;
+	}
+	
 }
 
 enum GameType {

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package exceptions;
+package gameLib.exceptions;
 
 /**
  * @author Elias Periañez 

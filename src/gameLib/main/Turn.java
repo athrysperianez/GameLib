@@ -1,9 +1,11 @@
-package main;
+package gameLib.main;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
-import exceptions.NotImplementedException;
+import gameLib.exceptions.NotImplementedException;
 
 /*
  *Creado por Elias Periañez
@@ -25,6 +27,8 @@ abstract public class Turn implements Serializable{
 	 * @author Elias Periañez All the actions that can be done in this turn
 	 */
 	private Action[] possibleActions;
+	
+	private Unit[] turnUnits;
 
 	/**
 	 * @author Elias Periañez
@@ -32,21 +36,9 @@ abstract public class Turn implements Serializable{
 	 *            possibleActions: </strong> All the actions that can be done in
 	 *            this turn
 	 */
-	Turn(Action[] possibleActions) {
-		this.possibleActions = possibleActions;
-	}
-
-	//TODO Javadoc
-	Turn(Unit[] units, Action[] extraActions) {
-		ArrayList<Action> tmpActions = new ArrayList<Action>();
-		ArrayList<Class> classFilterTmp = new ArrayList<Class>();
-		for (Unit unit : units) {
-			tmpActions.addAll(Arrays.asList(unit.getActionsPerUnit()));
-			if (!classFilterTmp.contains(unit.getClass())) {
-				classFilterTmp.add(unit.getClass());
-				tmpActions.addAll(Arrays.asList(unit.getActionsPerUnitType()));
-			}
-		}
+	Turn(Action[] possibleActions, Unit[] units) {
+		this.setPossibleActions(possibleActions);
+		this.turnUnits = units;
 	}
 
 	// TODO Javadoc
@@ -69,7 +61,16 @@ abstract public class Turn implements Serializable{
 	 *         the current turn
 	 */
 	private Action[] filterCurrentActions(Game game) {
-		return this.possibleActions;
+		ArrayList<Action> tmpPerUnitType = new ArrayList<Action>();
+		Set<Action> tmpPerUnit = new HashSet<Action>();
+		for (Unit u: turnUnits) {
+			tmpPerUnit.addAll(Arrays.asList(u.getActionsPerUnit()));
+			tmpPerUnitType.addAll(Arrays.asList(u.getActionsPerUnitType()));
+		}
+		ArrayList<Action> tmpPossibleActions = new ArrayList<Action>();
+		tmpPossibleActions.addAll(tmpPerUnit);
+		tmpPossibleActions.addAll(tmpPerUnitType);
+		return (Action[]) tmpPossibleActions.toArray();
 	}
 
 	// TODO Javadoc
@@ -80,6 +81,22 @@ abstract public class Turn implements Serializable{
 			e.printStackTrace();
 			System.err.println("At lane: " + e.getStackTrace()[0].getLineNumber());
 		}
+	}
+
+	public Unit[] getTurnUnits() {
+		return turnUnits;
+	}
+
+	public void setTurnUnits(Unit[] turnUnits) {
+		this.turnUnits = turnUnits;
+	}
+
+	public Action[] getPossibleActions() {
+		return possibleActions;
+	}
+
+	public void setPossibleActions(Action[] possibleActions) {
+		this.possibleActions = possibleActions;
 	}
 
 }

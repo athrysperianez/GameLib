@@ -1,4 +1,4 @@
-package main;
+package gameLib.main;
 import java.io.Serializable;
 
 /*
@@ -32,5 +32,10 @@ public interface Unit extends Serializable{
 	 */
 	@Override
 	public String toString();
+	
+	/**
+	 * @return Return the char that represent the unit
+	 */
+	public char getSummary();
 
 }
