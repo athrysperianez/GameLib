@@ -1,3 +1,4 @@
+package main;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -26,12 +27,12 @@ ________________________________________________________________________________
  *This file is under the Creative Commons Attribution 4.0 International (More info here https://creativecommons.org/licenses/by/4.0/)
  */
 
-public class SaveMagager {
+public class SaveManager {
 
 	/**
 	 * The directory and name of the last file this class saved a game on
 	 */
-	static String lastFileUsed = "";
+	public static String lastFileUsed = "";
 
 	/**
 	 * 
@@ -44,7 +45,8 @@ public class SaveMagager {
 	public static void autoSaveGame(Game game, String directory) throws UnableToSaveException, IOException {
 		String name = generateSaveFileName(game);
 		createOrOverrideFile(directory, name, "save");
-		String completePath = directory + "/" + "name" + ".save";
+		String completePath = directory + "\\" + name + ".save";
+		System.out.println(completePath);
 		lastFileUsed = completePath;
 		saveGame(game, completePath);
 	}
@@ -101,7 +103,7 @@ public class SaveMagager {
 	 * @throws IOException
 	 */
 	public static void createOrOverrideFile(String directory, String name, String extension) throws IOException {
-		Writer fileWriter = new FileWriter(directory + "/" + "name" + "." + extension, false);
+		Writer fileWriter = new FileWriter(directory + "\\" + name + "." + extension, false);
 		fileWriter.close();
 	}
 
@@ -122,6 +124,6 @@ public class SaveMagager {
 	 * @return The generated file name
 	 */
 	public static String generateSaveFileName(String name) {
-		return new Timestamp(new Date().getTime()).toString() + "_" + name;
+		return System.currentTimeMillis() + "_" + name;
 	}
 }
