@@ -2,7 +2,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import Exceptions.NotImplementedException;
+import exceptions.NotImplementedException;
 
 /*
  *Creado por Elias Periañez

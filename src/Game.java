@@ -19,6 +19,8 @@ public class Game implements Serializable {
 
 	private static final long serialVersionUID = -6117728161169835564L;
 
+	private String gameTitle;
+	
 	/**
 	 * @author Elias Periañez This variable defines if you are playing a
 	 *         singleplayer or a multiplayer game
@@ -49,14 +51,16 @@ public class Game implements Serializable {
 	public Game() {
 	}
 
-	public Game(Section[][] table, Pair<Turn, Turn> turns, Menu menu) {
+	public Game(String title, Section[][] table, Pair<Turn, Turn> turns, Menu menu) {
+		this.gameTitle = title;
 		this.table = table;
 		this.turns = turns;
 		this.gameType = GameType.MULTIPLAYER;
 		this.menu = menu;
 	}
 
-	public Game(Section[][] table, Turn turn, Menu menu) {
+	public Game(String title, Section[][] table, Turn turn, Menu menu) {
+		this.gameTitle = title;
 		this.table = table;
 		this.turns = new Pair<Turn, Turn>(turn, null);
 		this.gameType = GameType.MULTIPLAYER;
@@ -90,6 +94,14 @@ public class Game implements Serializable {
 		return new StringBuffer(" Table : ").append(this.table.toString()).append(" Turns : ")
 				.append(this.turns.toString()).append(" Game Type : ").append(this.gameType.toString())
 				.append(" Menu : ").append(this.menu.toString()).toString();
+	}
+
+	public String getGameTitle() {
+		return gameTitle;
+	}
+
+	public void setGameTitle(String gameTitle) {
+		this.gameTitle = gameTitle;
 	}
 }
 
