@@ -7,13 +7,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Writer;
-import java.util.Date;
-
-import com.sun.jmx.snmp.Timestamp;
-
 import exceptions.UnableToLoadException;
 import exceptions.UnableToSaveException;
-import javafx.util.Pair;
 
 /*
  *Creado por Elias Periañez
@@ -46,7 +41,6 @@ public class SaveManager {
 		String name = generateSaveFileName(game);
 		createOrOverrideFile(directory, name, "save");
 		String completePath = directory + "\\" + name + ".save";
-		System.out.println(completePath);
 		lastFileUsed = completePath;
 		saveGame(game, completePath);
 	}
