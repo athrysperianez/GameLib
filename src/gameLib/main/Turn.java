@@ -36,7 +36,7 @@ abstract public class Turn implements Serializable{
 	 *            possibleActions: </strong> All the actions that can be done in
 	 *            this turn
 	 */
-	Turn(Action[] possibleActions, Unit[] units) {
+	public Turn(Action[] possibleActions, Unit[] units) {
 		this.setPossibleActions(possibleActions);
 		this.turnUnits = units;
 	}
