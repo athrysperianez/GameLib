@@ -22,7 +22,7 @@ public interface Action extends Serializable{
 	 * This function will be called when the game wants to execute this action, define here what do you want this action to do, the table of the game will be passed as parameter
 	 * @param <strong> Table: </strong> Is the current board of the game.
 	 */
-	public void onCall(Section [][] table);
+	public Section[][] onCall(Section [][] table);
 	
 	/**
 	 * @author Elias Periañez

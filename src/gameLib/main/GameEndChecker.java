@@ -18,5 +18,5 @@ public interface GameEndChecker {
 	 * @param gm The game to be checked
 	 * @return Returns true if the game have to end, return false if not
 	 */
-	public boolean checkGameEnded(Game gm);
+	public Turn checkGameEnded(Game gm);
 }

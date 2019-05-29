@@ -1,5 +1,8 @@
 package gameLib.main;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -64,8 +67,7 @@ public class Menu implements Serializable {
 	 * Use this method to call the action choice menu, which let the player choose
 	 * the action they want to perform in this turn
 	 * 
-	 * @param actions
-	 *            an array of actions to be shown in the menu
+	 * @param actions an array of actions to be shown in the menu
 	 * @return The chosen action by the user
 	 */
 	//
@@ -98,21 +100,35 @@ public class Menu implements Serializable {
 
 			private static final long serialVersionUID = -511268994651726131L;
 
-			private Action[] actions;
+			public Action getByKey(String key) {
+				return this.actions.get(key);
+			}
 
-			public ChoiceLayer(Action[] actions) {
+			private HashMap<String, Action> actions;
+
+			public ChoiceLayer(HashMap<String, Action> actions) {
 				this.actions = actions;
 			}
 
-			public Action choiceMenu(Action[] actions) {
-				int i = 0;
+			public ChoiceLayer(Action[] actions) {
 				for (Action current : actions) {
+					this.actions.put(current.getActionInfo().getKey(), current);
+				}
+			}
+
+			public Action choiceMenu(Action[] extraActions) {
+				int i = 0;
+				ArrayList<Action> tmpActions = new ArrayList(Arrays.asList(actions.values()));
+				HashMap<Integer, Action> tmpSelectAction = new HashMap<Integer, Action>();
+				tmpActions.addAll(Arrays.asList(extraActions));
+				for (Action current : tmpActions) {
 					if (current.getActionInfo().getValue() != null) {
 						System.out.println(
 								i + "." + current.getActionInfo().getKey() + ": " + current.getActionInfo().getValue());
 					} else {
 						System.out.println(i + "." + current.getActionInfo().getKey());
 					}
+					tmpSelectAction.put(i, current);
 					i++;
 				}
 				Scanner sc = new Scanner(System.in);
@@ -121,7 +137,7 @@ public class Menu implements Serializable {
 				try {
 					do {
 						System.out.print("Please, input the number of the action you want to perform: ");
-						result = actions[sc.nextInt()];
+						result = tmpSelectAction.get(sc.nextInt());
 						check = true;
 					} while (!check);
 				} catch (IndexOutOfBoundsException | InputMismatchException e) {
@@ -131,11 +147,11 @@ public class Menu implements Serializable {
 				return result;
 			}
 
-			public Action[] getActions() {
+			public HashMap<String, Action> getActions() {
 				return actions;
 			}
 
-			public void setActions(Action[] actions) {
+			public void setActions(HashMap<String, Action> actions) {
 				this.actions = actions;
 			}
 
@@ -150,7 +166,7 @@ public class Menu implements Serializable {
 		class PromptLayer extends MenuLayer implements Serializable {
 
 			private static final long serialVersionUID = -7756136883211134387L;
-
+			
 			private HashMap<String, String> strings;
 
 			public PromptLayer(HashMap<String, String> data) {

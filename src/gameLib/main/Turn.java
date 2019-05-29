@@ -1,4 +1,5 @@
 package gameLib.main;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,42 +20,43 @@ ________________________________________________________________________________
  *This file is under the Creative Commons Attribution 4.0 International (More info here https://creativecommons.org/licenses/by/4.0/)
  */
 
-abstract public class Turn implements Serializable{
-
+abstract public class Turn implements Serializable {
 
 	private static final long serialVersionUID = -7901032368453232885L;
 	/**
 	 * @author Elias Periañez All the actions that can be done in this turn
 	 */
 	private Action[] possibleActions;
-	
+
 	private Unit[] turnUnits;
+
+	private Menu menu;
 
 	/**
 	 * @author Elias Periañez
-	 * @param <strong>
-	 *            possibleActions: </strong> All the actions that can be done in
-	 *            this turn
+	 * @param <strong> possibleActions: </strong> All the actions that can be done
+	 *                 in this turn
 	 */
-	public Turn(Action[] possibleActions, Unit[] units) {
+	public Turn(Action[] possibleActions, Unit[] units, Menu menu) {
 		this.setPossibleActions(possibleActions);
 		this.turnUnits = units;
+		this.menu = menu;
 	}
 
 	// TODO Javadoc
-	public void onCall(Menu menu) {
+	public Section[][] onCall(Menu menu) {
 		try {
 			throw new NotImplementedException();
 		} catch (NotImplementedException e) {
 			e.printStackTrace();
 			System.err.println("At lane: " + e.getStackTrace()[0].getLineNumber());
 		}
+		return null;
 	}
 
 	/**
-	 * @param <strong>
-	 *            game: </strong> The game object, use it to find out the current
-	 *            state of the game and filter
+	 * @param <strong> game: </strong> The game object, use it to find out the
+	 *                 current state of the game and filter
 	 * @return An array list of possible actions in the current state of the game,
 	 *         by default every action is considered as possible so it will return
 	 *         possibleActions param. Use this method to check possible actions for
@@ -63,7 +65,7 @@ abstract public class Turn implements Serializable{
 	private Action[] filterCurrentActions(Game game) {
 		ArrayList<Action> tmpPerUnitType = new ArrayList<Action>();
 		Set<Action> tmpPerUnit = new HashSet<Action>();
-		for (Unit u: turnUnits) {
+		for (Unit u : turnUnits) {
 			tmpPerUnit.addAll(Arrays.asList(u.getActionsPerUnit()));
 			tmpPerUnitType.addAll(Arrays.asList(u.getActionsPerUnitType()));
 		}

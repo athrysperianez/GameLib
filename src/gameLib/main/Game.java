@@ -40,13 +40,6 @@ public class Game implements Serializable {
 	 */
 	private Pair<Turn, Turn> turns;
 
-	/**
-	 * The menu is the game menu, it will be use for starting the game and for
-	 * anything that requires printing on the screen/interact with the user, acting
-	 * similar as the view on a MVC logic.
-	 */
-	private Menu menu;
-
 	// TODO Game javadoc
 	public Game() {
 	}
@@ -56,7 +49,6 @@ public class Game implements Serializable {
 		this.table = table;
 		this.turns = turns;
 		this.gameType = GameType.MULTIPLAYER;
-		this.menu = menu;
 	}
 
 	public Game(String title, Section[][] table, Turn turn, Menu menu) {
@@ -64,27 +56,28 @@ public class Game implements Serializable {
 		this.table = table;
 		this.turns = new Pair<Turn, Turn>(turn, null);
 		this.gameType = GameType.MULTIPLAYER;
-		this.menu = menu;
 	}
 
-	public boolean startGame(GameEndChecker check) {
+	public boolean startGame(GameEndChecker check, Menu menu) {
 		boolean result = true;
 		try {
 			boolean tic = true;
-			while (!check.checkGameEnded(this)) {
+			Turn gmEnd = check.checkGameEnded(this);
+			while (gmEnd == null) {
 				if (tic) {
-					this.turns.getKey().onCall(this.menu);
+					this.turns.getKey().onCall(menu);
 				} else {
-					this.turns.getValue().onCall(this.menu);
+					this.turns.getValue().onCall(menu);
 				}
+
 				tic = !tic;
+				gmEnd = check.checkGameEnded(this);
 			}
 		} catch (Exception e) {
 			result = false;
 		}
 		return result;
 	}
-
 
 	public String formatTable() {
 		String result = "";
@@ -101,11 +94,10 @@ public class Game implements Serializable {
 	@Override
 	public String toString() {
 		return new StringBuffer(" Table : ").append(this.table.toString()).append(" Turns : ")
-				.append(this.turns.toString()).append(" Game Type : ").append(this.gameType.toString())
-				.append(" Menu : ").append(this.menu.toString()).toString();
+				.append(this.turns.toString()).append(" Game Type : ").append(this.gameType.toString()).toString();
 	}
 
-	//Getters and setters
+	// Getters and setters
 	public Section[][] getTable() {
 		return table;
 	}
@@ -122,14 +114,6 @@ public class Game implements Serializable {
 		this.turns = turns;
 	}
 
-	public Menu getMenu() {
-		return menu;
-	}
-
-	public void setMenu(Menu menu) {
-		this.menu = menu;
-	}
-
 	public String getGameTitle() {
 		return gameTitle;
 	}
@@ -137,15 +121,15 @@ public class Game implements Serializable {
 	public void setGameTitle(String gameTitle) {
 		this.gameTitle = gameTitle;
 	}
-	
+
 	public void setGameType(GameType gt) {
 		this.gameType = gt;
 	}
-	
+
 	public GameType getGameType() {
 		return this.gameType;
 	}
-	
+
 }
 
 enum GameType {
