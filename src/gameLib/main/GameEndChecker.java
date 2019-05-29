@@ -13,8 +13,10 @@ ________________________________________________________________________________
  */
 
 public interface GameEndChecker {
+
 	/**
 	 * This function will be called before a new turn start.
+	 * 
 	 * @param gm The game to be checked
 	 * @return Returns true if the game have to end, return false if not
 	 */

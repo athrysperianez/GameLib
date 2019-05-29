@@ -1,6 +1,8 @@
 package gameLib.main;
 import java.io.Serializable;
 
+import javafx.util.Pair;
+
 /*
  *Creado por Elias Periañez
  *31 ene. 2019
@@ -37,5 +39,7 @@ public interface Unit extends Serializable{
 	 * @return Return the char that represent the unit
 	 */
 	public char getSummary();
+	
+	public Pair<Integer, Integer>findUnit(Section[][] table);
 
 }
