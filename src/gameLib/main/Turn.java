@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import gameLib.exceptions.NotImplementedException;
@@ -39,12 +40,17 @@ abstract public class Turn implements Serializable {
 	 */
 	public Turn(Action[] possibleActions, Unit[] units, Menu menu) {
 		this.setPossibleActions(possibleActions);
-		this.turnUnits = units;
-		this.menu = menu;
+		this.setTurnUnits(units);
+		this.setMenu(menu);
 	}
 
+	public void update(Action[] possibleActions, Unit[] units) {
+		this.setPossibleActions(possibleActions);
+		this.setTurnUnits(units);
+	}
+	
 	// TODO Javadoc
-	public Section[][] onCall(Menu menu) {
+	public Section[][] onCall(Section[][] table) {
 		try {
 			throw new NotImplementedException();
 		} catch (NotImplementedException e) {
@@ -62,7 +68,7 @@ abstract public class Turn implements Serializable {
 	 *         possibleActions param. Use this method to check possible actions for
 	 *         the current turn
 	 */
-	private Action[] filterCurrentActions(Game game) {
+	public Action[] filterCurrentActions(Game game) {
 		ArrayList<Action> tmpPerUnitType = new ArrayList<Action>();
 		Set<Action> tmpPerUnit = new HashSet<Action>();
 		for (Unit u : turnUnits) {
@@ -74,15 +80,11 @@ abstract public class Turn implements Serializable {
 		tmpPossibleActions.addAll(tmpPerUnitType);
 		return (Action[]) tmpPossibleActions.toArray();
 	}
-
-	// TODO Javadoc
-	public void onActionChoosed(Action action) {
-		try {
-			throw new NotImplementedException();
-		} catch (NotImplementedException e) {
-			e.printStackTrace();
-			System.err.println("At lane: " + e.getStackTrace()[0].getLineNumber());
-		}
+	
+	public void addUnit(Unit unit) {
+		List<Unit> tmpList = Arrays.asList(this.turnUnits);
+		tmpList.add(unit);
+		this.turnUnits = (Unit[]) tmpList.toArray();
 	}
 
 	public Unit[] getTurnUnits() {
@@ -101,4 +103,11 @@ abstract public class Turn implements Serializable {
 		this.possibleActions = possibleActions;
 	}
 
+	public Menu getMenu() {
+		return menu;
+	}
+
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
 }

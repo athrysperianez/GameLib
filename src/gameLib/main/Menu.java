@@ -72,7 +72,7 @@ public class Menu implements Serializable {
 	 */
 	//
 
-	class MenuLayer {
+	public class MenuLayer {
 
 		MenuLayer CreateMenuLayer(Action[] actions) {
 			return CreateMenuLayer(MenuLayerType.CHOICE, actions, null);
@@ -88,7 +88,6 @@ public class Menu implements Serializable {
 
 			if (mlt == MenuLayerType.CHOICE) {
 				result = new ChoiceLayer(actions);
-
 			} else {
 				result = new PromptLayer(data);
 			}
@@ -96,15 +95,14 @@ public class Menu implements Serializable {
 		}
 
 		// TODO Javadoc
-		class ChoiceLayer extends MenuLayer implements Serializable {
+		public class ChoiceLayer extends MenuLayer implements Serializable {
 
 			private static final long serialVersionUID = -511268994651726131L;
+			private HashMap<String, Action> actions = new HashMap<String, Action>();
 
 			public Action getByKey(String key) {
 				return this.actions.get(key);
 			}
-
-			private HashMap<String, Action> actions;
 
 			public ChoiceLayer(HashMap<String, Action> actions) {
 				this.actions = actions;
@@ -163,10 +161,10 @@ public class Menu implements Serializable {
 		}
 
 		// TODO Javadoc
-		class PromptLayer extends MenuLayer implements Serializable {
+		public class PromptLayer extends MenuLayer implements Serializable {
 
 			private static final long serialVersionUID = -7756136883211134387L;
-			
+
 			private HashMap<String, String> strings;
 
 			public PromptLayer(HashMap<String, String> data) {
@@ -195,10 +193,6 @@ public class Menu implements Serializable {
 			}
 		}
 
-	}
-
-	enum MenuLayerType {
-		CHOICE, PROMPT
 	}
 
 	@Override

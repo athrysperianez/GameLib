@@ -40,6 +40,8 @@ public class Game implements Serializable {
 	 */
 	private Pair<Turn, Turn> turns;
 
+	private boolean debug = true;
+
 	// TODO Game javadoc
 	public Game() {
 	}
@@ -51,42 +53,134 @@ public class Game implements Serializable {
 		this.gameType = GameType.MULTIPLAYER;
 	}
 
-	public Game(String title, Section[][] table, Turn turn, Menu menu) {
+	public Game(String title, Section[][] table, Turn turn) {
 		this.gameTitle = title;
 		this.table = table;
 		this.turns = new Pair<Turn, Turn>(turn, null);
-		this.gameType = GameType.MULTIPLAYER;
+		this.gameType = GameType.SINGLEPLAYER;
 	}
 
-	public boolean startGame(GameEndChecker check, Menu menu) {
+	public Game(String title, Section[][] table, Pair<Turn, Turn> turns, GameType gmType) {
+		this.gameTitle = title;
+		this.table = table;
+		this.turns = turns;
+		this.gameType = gmType;
+	}
+
+	public void startMenuExecute(Menu startMenu) {
+		System.err.print(this.debug
+				? "The function startMenuExecute is defaulted right now, override it in a local game class or disable the debug mode using setDebugMode(false)\n"
+				: "");
+	}
+
+	public boolean startGame(GameEndChecker check, Menu startMenu, boolean printTable) {
+		System.err.print(this.debug
+				? "Watch out, debug mode is on, you will se messages such as this, if you think you shouldn´t be seeing this, please contact the game creator\n"
+				: "");
+		if (startMenu != null) {
+			this.startMenuExecute(startMenu);
+		} else {
+			System.err.print(this.debug ? "Start menu is null\n" : "");
+		}
 		boolean result = true;
 		try {
 			boolean tic = true;
 			Turn gmEnd = check.checkGameEnded(this);
+			System.err.print(this.debug ? "First end checker returned " + gmEnd + "\n" : "");
+
 			while (gmEnd == null) {
 				if (tic) {
-					this.turns.getKey().onCall(menu);
+					System.err.print(this.debug ? "First turn called\n" : "");
+					this.turns.getKey().onCall(this.table);
 				} else {
-					this.turns.getValue().onCall(menu);
+					System.err.print(this.debug ? "Second turn called\n" : "");
+					this.turns.getValue().onCall(this.table);
+				}
+
+				if (printTable) {
+					System.err.print(this.debug ? "Printing	table\n" : "");
+					System.out.println(this.formatTable());
 				}
 
 				tic = !tic;
 				gmEnd = check.checkGameEnded(this);
+				System.err.print(this.debug ? "End checker returned " + gmEnd + "\n" : "");
 			}
+			System.err.print(this.debug ? "Game ended\n" : "");
 		} catch (Exception e) {
 			result = false;
+			if (this.debug) {
+				System.err.print("Exception on game loop\n");
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
 
+	public boolean startGame(GameEndChecker check, boolean printTable) {
+		return this.startGame(check, null, printTable);
+	}
+
+	public boolean startGame(GameEndChecker check, Menu startMenu, boolean printTable, Updater update) {
+		System.err.print(this.debug
+				? "Watch out, debug mode is on, you will se messages such as this, if you think you shouldn´t be seeing this, please contact the game creator\n"
+				: "");
+		boolean result = true;
+		if (startMenu != null) {
+			this.startMenuExecute(startMenu);
+		}
+		try {
+			boolean tic = true;
+			Turn gmEnd = check.checkGameEnded(this);
+			System.err.print(this.debug ? "First end checker returned " + gmEnd + "\n" : "");
+			while (gmEnd == null) {
+				System.err.print(this.debug ? "First turn updater called\n" : "");
+				update.update(this.turns.getKey(), this);
+				System.err.print(this.debug ? "Second turn updater called\n" : "");
+				update.update(this.turns.getValue(), this);
+				if (tic) {
+					System.err.print(this.debug ? "First turn called\n" : "");
+					this.turns.getKey().onCall(this.table);
+				} else {
+					System.err.print(this.debug ? "Second turn called\n" : "");
+					this.turns.getValue().onCall(this.table);
+				}
+
+				if (printTable) {
+					System.err.print(this.debug ? "Printing	table\n" : "");
+					System.out.println(this.formatTable());
+				}
+
+				tic = !tic;
+				gmEnd = check.checkGameEnded(this);
+				System.err.print(this.debug ? "End checker returned " + gmEnd + "\n" : "");
+
+			}
+		} catch (Exception e) {
+			result = false;
+			if (this.debug) {
+				System.err.print("Exception on game loop\n");
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
+	public boolean startGame(GameEndChecker check, boolean printTable, Updater update) {
+		return this.startGame(check, null, printTable, update);
+	}
+
 	public String formatTable() {
 		String result = "";
-		for (Section section : this.table[0]) {
-			result += "[" + section.getUnitOnIt().getSummary() + "]";
-		}
-
-		for (Section section : this.table[1]) {
-			result += "[" + section.getUnitOnIt().getSummary() + "]";
+		for (int i = 0; i < this.table.length - 1; i++) {
+			result += this.debug ? i : "";
+			for (Section section : this.table[i]) {
+				if (section.getUnitOnIt() == null) {
+					result += "[]";
+				} else {
+					result += "[" + section.getUnitOnIt().getSummary() + "]";
+				}
+			}
 		}
 		return result;
 	}
@@ -130,8 +224,12 @@ public class Game implements Serializable {
 		return this.gameType;
 	}
 
-}
+	public boolean isDebug() {
+		return debug;
+	}
 
-enum GameType {
-	SINGLEPLAYER, MULTIPLAYER
+	public void setDebug(boolean debug) {
+		this.debug = debug;
+	}
+
 }
