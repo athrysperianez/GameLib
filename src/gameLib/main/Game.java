@@ -89,17 +89,16 @@ public class Game implements Serializable {
 			System.err.print(this.debug ? "First end checker returned " + gmEnd + "\n" : "");
 
 			while (gmEnd == null) {
+				if (printTable) {
+					System.err.print(this.debug ? "Printing table\n" : "");
+					System.out.println(this.formatTable());
+				}
 				if (tic) {
 					System.err.print(this.debug ? "First turn called\n" : "");
 					this.turns.getKey().onCall(this.table);
 				} else {
 					System.err.print(this.debug ? "Second turn called\n" : "");
 					this.turns.getValue().onCall(this.table);
-				}
-
-				if (printTable) {
-					System.err.print(this.debug ? "Printing	table\n" : "");
-					System.out.println(this.formatTable());
 				}
 
 				tic = !tic;
@@ -126,6 +125,7 @@ public class Game implements Serializable {
 				? "Watch out, debug mode is on, you will se messages such as this, if you think you shouldn´t be seeing this, please contact the game creator\n"
 				: "");
 		boolean result = true;
+		System.out.println("Imprimiendo tabla");
 		if (startMenu != null) {
 			this.startMenuExecute(startMenu);
 		}
@@ -138,6 +138,10 @@ public class Game implements Serializable {
 				update.update(this.turns.getKey(), this);
 				System.err.print(this.debug ? "Second turn updater called\n" : "");
 				update.update(this.turns.getValue(), this);
+				if (printTable) {
+					System.err.print(this.debug ? "Printing table\n" : "");
+					System.out.println(this.formatTable());
+				}
 				if (tic) {
 					System.err.print(this.debug ? "First turn called\n" : "");
 					this.turns.getKey().onCall(this.table);
@@ -145,12 +149,6 @@ public class Game implements Serializable {
 					System.err.print(this.debug ? "Second turn called\n" : "");
 					this.turns.getValue().onCall(this.table);
 				}
-
-				if (printTable) {
-					System.err.print(this.debug ? "Printing	table\n" : "");
-					System.out.println(this.formatTable());
-				}
-
 				tic = !tic;
 				gmEnd = check.checkGameEnded(this);
 				System.err.print(this.debug ? "End checker returned " + gmEnd + "\n" : "");
@@ -181,6 +179,7 @@ public class Game implements Serializable {
 					result += "[" + section.getUnitOnIt().getSummary() + "]";
 				}
 			}
+			result += "\n";
 		}
 		return result;
 	}
