@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import gameLib.exceptions.NotImplementedException;
 
 /*
  *Creado por Elias Periañez
@@ -50,15 +49,7 @@ abstract public class Turn implements Serializable {
 	}
 	
 	// TODO Javadoc
-	public Section[][] onCall(Section[][] table) {
-		try {
-			throw new NotImplementedException();
-		} catch (NotImplementedException e) {
-			e.printStackTrace();
-			System.err.println("At lane: " + e.getStackTrace()[0].getLineNumber());
-		}
-		return null;
-	}
+	public abstract Section[][] onCall(Section[][] table);
 
 	/**
 	 * @param <strong> game: </strong> The game object, use it to find out the
