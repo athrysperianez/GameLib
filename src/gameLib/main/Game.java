@@ -2,6 +2,8 @@ package gameLib.main;
 
 import java.io.Serializable;
 
+import gameLib.main.Menu.MenuLayer;
+import gameLib.main.Menu.MenuLayer.PromptLayer;
 import javafx.util.Pair;
 
 /*
@@ -125,7 +127,6 @@ public class Game implements Serializable {
 				? "Watch out, debug mode is on, you will se messages such as this, if you think you shouldn´t be seeing this, please contact the game creator\n"
 				: "");
 		boolean result = true;
-		System.out.println("Imprimiendo tabla");
 		if (startMenu != null) {
 			this.startMenuExecute(startMenu);
 		}
@@ -171,7 +172,7 @@ public class Game implements Serializable {
 	public String formatTable() {
 		String result = "";
 		for (int i = 0; i < this.table.length - 1; i++) {
-			result += this.debug ? i : "";
+			result += i;
 			for (Section section : this.table[i]) {
 				if (section.getUnitOnIt() == null) {
 					result += "[]";
@@ -182,6 +183,26 @@ public class Game implements Serializable {
 			result += "\n";
 		}
 		return result;
+	}
+
+	public void printFromTurnMenu(int turnNumber, String key) {
+		try {
+			if (turnNumber == 1) {
+				for (MenuLayer layer : this.turns.getKey().getMenu().getLayers()) {
+					if (layer instanceof PromptLayer) {
+						((PromptLayer) layer).printByKey(key);
+					}
+				}
+			} else {
+				for (MenuLayer layer : this.turns.getValue().getMenu().getLayers()) {
+					if (layer instanceof PromptLayer) {
+						((PromptLayer) layer).printByKey(key);
+					}
+				}
+			}
+		} catch (Exception e) {
+			System.err.print(this.debug ? "Couldn´t print from menu, error: \n" + e.getMessage() + "\n" : "");
+		}
 	}
 
 	@Override
