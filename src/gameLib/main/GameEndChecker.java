@@ -18,7 +18,7 @@ public interface GameEndChecker {
 	 * This function will be called before a new turn start.
 	 * 
 	 * @param gm The game to be checked
-	 * @return Returns true if the game have to end, return false if not
+	 * @return Returns the turn belonging to the person who won the game or null if the game have not ended.
 	 */
 	public Turn checkGameEnded(Game gm);
 }
